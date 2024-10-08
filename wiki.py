@@ -1,3 +1,4 @@
+from queue import Queue
 import wikipediaapi
 import time
 
@@ -14,7 +15,7 @@ def fetch_links(page):
     return links_list
 
 def wikipedia_game_solver(start_page, target_page):
-    print("working on it.e..")
+    print("hold on")
     start_time = time.time()
     
     queue = Queue()
@@ -24,9 +25,24 @@ def wikipedia_game_solver(start_page, target_page):
     queue.put(start_page.title)
     visited.add(start_page.title)
 
-print(start_page.links)
+    while not queue.empty():
 
-    #reconstruct path from target page to start page / everything below this line is in the 
+        current_page_title = queue.get()
+
+        if current_page_title == target_page.title:
+            break
+
+        current_page = wiki.page(current_page_title)
+        links = fetch_links(current_page)
+
+        for link in links: 
+
+            if link not in visited:
+                queue.put(link)
+                visited.add(link)
+                parent[link] = current_page_title
+
+    #reconstruct path from target page to start page / 
     path = []
     page_title = target_page.title
     while page_title != start_page.title
@@ -43,5 +59,9 @@ print(start_page.links)
 # start and end pages for our wikipedia game solver
 start_page = wiki.page("Pasadena High School (California)")
 target_page = wiki.page("Rose Parade")    
-path=wikipedi_game_solver(start_page,) target_page)
+path = wikipedia_game_solver(start_page,target_page)
 print(path)
+
+
+
+print(fetch_links (start_page.link))
